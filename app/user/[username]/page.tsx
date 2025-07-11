@@ -96,8 +96,8 @@ export default function UserProfile() {
   const isCurrentlyPlaying = recentTracks[0]?.['@attr']?.nowplaying === 'true'
 
   return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="flex items-center justify-between mb-8">
+    <>
+      <div className="flex items-center justify-between mb-6">
           <Link href="/" className="inline-flex items-center text-white/60 hover:text-white transition-all hover:translate-x-1">
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -139,24 +139,24 @@ export default function UserProfile() {
                   {userInfo.name}
                 </h1>
                 {userInfo.realname && (
-                  <p className="text-xl text-white/60 mb-6">{userInfo.realname}</p>
+                  <p className="text-lg text-white/60 mb-4">{userInfo.realname}</p>
                 )}
-                <div className="flex flex-wrap gap-4 sm:gap-6 md:gap-8 justify-center md:justify-start">
+                <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center md:justify-start">
                   <div className="text-center md:text-left">
-                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
-                    <p className="text-sm text-white/60 uppercase tracking-wider">Scrobbles</p>
+                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
+                    <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider">Scrobbles</p>
                   </div>
                   <div className="text-center md:text-left">
-                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                       {Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24))}
                     </p>
-                    <p className="text-sm text-white/60 uppercase tracking-wider">Days of Music</p>
+                    <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider">Days of Music</p>
                   </div>
                   <div className="text-center md:text-left">
-                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                       {Math.floor(parseInt(userInfo.playcount) / Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24)))}
                     </p>
-                    <p className="text-sm text-white/60 uppercase tracking-wider">Daily Average</p>
+                    <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider">Daily Average</p>
                   </div>
                 </div>
               </div>
@@ -184,12 +184,12 @@ export default function UserProfile() {
         )}
 
         {/* Period Selector - Beautiful pills */}
-        <div className="flex flex-wrap gap-2 mb-8 sm:mb-12 justify-center">
+        <div className="flex flex-wrap gap-1.5 mb-6 sm:mb-8 justify-center">
           {PERIODS.map((period) => (
             <button
               key={period.value}
               onClick={() => setSelectedPeriod(period.value)}
-              className={`px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105 ${
+              className={`px-4 py-2 rounded-full font-medium text-sm transition-all transform hover:scale-105 ${
                 selectedPeriod === period.value
                   ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-purple-500/25'
                   : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10'
@@ -201,22 +201,22 @@ export default function UserProfile() {
         </div>
 
         {/* Two Column Layout - Top Songs & Albums */}
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-16 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-10 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
           {/* Top Songs Column */}
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
               Top Songs
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {topTracks.map((track, index) => (
                 <div
                   key={`${track.name}-${track.artist.name}-${index}`}
-                  className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 p-4 transition-all hover:scale-[1.02] hover:border-pink-500/30 animate-in"
+                  className="group relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 p-3 transition-all hover:scale-[1.02] hover:border-pink-500/30 animate-in"
                   style={{ animationDelay: `${index * 30}ms` }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 to-purple-500/0 group-hover:from-pink-500/10 group-hover:to-purple-500/10 transition-all" />
-                  <div className="relative flex items-center gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center font-bold text-lg text-pink-400">
+                  <div className="relative flex items-center gap-3">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center font-bold text-sm text-pink-400">
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -235,19 +235,19 @@ export default function UserProfile() {
 
           {/* Top Albums Column */}
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
               Top Albums
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {topAlbums.map((album, index) => (
                 <div
                   key={`${album.name}-${album.artist.name}`}
-                  className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-[1.02] hover:border-purple-500/30 animate-in"
+                  className="group relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-[1.02] hover:border-purple-500/30 animate-in"
                   style={{ animationDelay: `${index * 30}ms` }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all" />
-                  <div className="relative flex items-center gap-4 p-4">
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-white/10 flex-shrink-0">
+                  <div className="relative flex items-center gap-3 p-3">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex-shrink-0">
                       {(() => {
                         const imageUrl = getImageUrl(album.image, 'medium')
                         return imageUrl && imageUrl.trim() !== '' ? (
@@ -262,7 +262,7 @@ export default function UserProfile() {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <svg className="w-8 h-8 text-white/20" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-white/20" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
                             </svg>
                           </div>
@@ -270,8 +270,8 @@ export default function UserProfile() {
                       })()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white truncate">{album.name}</p>
-                      <p className="text-sm text-white/60 truncate">{album.artist.name}</p>
+                      <p className="font-semibold text-sm text-white truncate">{album.name}</p>
+                      <p className="text-xs text-white/60 truncate">{album.artist.name}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium text-pink-400">{formatNumber(album.playcount)}</p>
@@ -285,33 +285,33 @@ export default function UserProfile() {
         </div>
 
         {/* Artists List at Bottom - Beautiful Design */}
-        <div className="mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400">
+        <div className="mb-8">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400">
             Your Top Artists
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
             {topArtists.map((artist, index) => (
               <div
                 key={artist.name}
-                className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/5 to-white/0 hover:from-white/10 hover:to-white/5 border border-white/10 p-4 sm:p-6 transition-all hover:scale-[1.02] hover:border-white/20 animate-in"
+                className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-white/5 to-white/0 hover:from-white/10 hover:to-white/5 border border-white/10 p-3 sm:p-4 transition-all hover:scale-[1.02] hover:border-white/20 animate-in"
                 style={{ animationDelay: `${Math.min(index * 20, 200)}ms` }}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-full blur-3xl group-hover:from-pink-500/30 group-hover:to-purple-500/30 transition-all" />
                 <div className="relative">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-lg sm:text-xl text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 transition-all">
+                    <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 transition-all">
                       {artist.name}
                     </h3>
-                    <span className="text-2xl sm:text-3xl font-bold text-white/20">#{index + 1}</span>
+                    <span className="text-xl sm:text-2xl font-bold text-white/20">#{index + 1}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div>
-                      <p className="text-xl sm:text-2xl font-bold text-white">{formatNumber(artist.playcount)}</p>
-                      <p className="text-sm text-white/40 uppercase tracking-wider">plays</p>
+                      <p className="text-lg sm:text-xl font-bold text-white">{formatNumber(artist.playcount)}</p>
+                      <p className="text-xs text-white/40 uppercase tracking-wider">plays</p>
                     </div>
-                    <div className="h-8 w-px bg-white/20" />
+                    <div className="h-6 w-px bg-white/20" />
                     <div>
-                      <p className="text-base sm:text-lg font-medium text-white/80">
+                      <p className="text-sm sm:text-base font-medium text-white/80">
                         {((parseInt(artist.playcount) / parseInt(userInfo.playcount)) * 100).toFixed(1)}%
                       </p>
                       <p className="text-sm text-white/40">of total</p>
@@ -322,6 +322,6 @@ export default function UserProfile() {
             ))}
           </div>
         </div>
-      </div>
+    </>
   )
 }
