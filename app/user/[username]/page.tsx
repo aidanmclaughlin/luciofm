@@ -100,7 +100,7 @@ export default function UserProfile() {
       {/* Animated gradient background */}
       <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black" />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <Link href="/" className="inline-flex items-center text-white/60 hover:text-white mb-8 transition-all hover:translate-x-1">
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -111,8 +111,8 @@ export default function UserProfile() {
         {/* User Header - Gorgeous new design */}
         <div className="relative mb-12">
           <div className="absolute inset-0 bg-gradient-to-r from-pink-600/20 to-purple-600/20 blur-3xl" />
-          <div className="relative bg-black/40 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+          <div className="relative bg-black/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-white/10">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-8">
               {userInfo.image[3]?.['#text'] && !userInfo.image[3]['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f') && (
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full blur-xl opacity-60" />
@@ -127,25 +127,25 @@ export default function UserProfile() {
                 </div>
               )}
               <div className="text-center md:text-left flex-1">
-                <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                   {userInfo.name}
                 </h1>
                 {userInfo.realname && (
                   <p className="text-xl text-white/60 mb-6">{userInfo.realname}</p>
                 )}
-                <div className="flex flex-wrap gap-8 justify-center md:justify-start">
+                <div className="flex flex-wrap gap-4 sm:gap-6 md:gap-8 justify-center md:justify-start">
                   <div className="text-center md:text-left">
-                    <p className="text-4xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
                     <p className="text-sm text-white/60 uppercase tracking-wider">Scrobbles</p>
                   </div>
                   <div className="text-center md:text-left">
-                    <p className="text-4xl font-bold text-white">
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                       {Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24))}
                     </p>
                     <p className="text-sm text-white/60 uppercase tracking-wider">Days of Music</p>
                   </div>
                   <div className="text-center md:text-left">
-                    <p className="text-4xl font-bold text-white">
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                       {Math.floor(parseInt(userInfo.playcount) / Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24)))}
                     </p>
                     <p className="text-sm text-white/60 uppercase tracking-wider">Daily Average</p>
@@ -158,7 +158,7 @@ export default function UserProfile() {
 
         {/* Now Playing Banner */}
         {isCurrentlyPlaying && recentTracks[0] && (
-          <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-900/20 to-emerald-900/20 p-6 border border-green-500/20">
+          <div className="mb-6 sm:mb-8 relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-green-900/20 to-emerald-900/20 p-4 sm:p-6 border border-green-500/20">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-transparent animate-pulse" />
             <div className="relative flex items-center gap-4">
               <div className="flex gap-1">
@@ -176,7 +176,7 @@ export default function UserProfile() {
         )}
 
         {/* Period Selector - Beautiful pills */}
-        <div className="flex flex-wrap gap-2 mb-12 justify-center">
+        <div className="flex flex-wrap gap-2 mb-8 sm:mb-12 justify-center">
           {PERIODS.map((period) => (
             <button
               key={period.value}
@@ -193,10 +193,10 @@ export default function UserProfile() {
         </div>
 
         {/* Two Column Layout - Top Songs & Albums */}
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-16 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
           {/* Top Songs Column */}
           <div>
-            <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
               Top Songs
             </h2>
             <div className="space-y-3">
@@ -227,7 +227,7 @@ export default function UserProfile() {
 
           {/* Top Albums Column */}
           <div>
-            <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
               Top Albums
             </h2>
             <div className="space-y-4">
@@ -278,32 +278,32 @@ export default function UserProfile() {
 
         {/* Artists List at Bottom - Beautiful Design */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400">
             Your Top Artists
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {topArtists.map((artist, index) => (
               <div
                 key={artist.name}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-white/0 hover:from-white/10 hover:to-white/5 border border-white/10 p-6 transition-all hover:scale-[1.02] hover:border-white/20 animate-in"
+                className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/5 to-white/0 hover:from-white/10 hover:to-white/5 border border-white/10 p-4 sm:p-6 transition-all hover:scale-[1.02] hover:border-white/20 animate-in"
                 style={{ animationDelay: `${Math.min(index * 20, 200)}ms` }}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-full blur-3xl group-hover:from-pink-500/30 group-hover:to-purple-500/30 transition-all" />
                 <div className="relative">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-xl text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 transition-all">
+                    <h3 className="font-bold text-lg sm:text-xl text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 transition-all">
                       {artist.name}
                     </h3>
-                    <span className="text-3xl font-bold text-white/20">#{index + 1}</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-white/20">#{index + 1}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div>
-                      <p className="text-2xl font-bold text-white">{formatNumber(artist.playcount)}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-white">{formatNumber(artist.playcount)}</p>
                       <p className="text-sm text-white/40 uppercase tracking-wider">plays</p>
                     </div>
                     <div className="h-8 w-px bg-white/20" />
                     <div>
-                      <p className="text-lg font-medium text-white/80">
+                      <p className="text-base sm:text-lg font-medium text-white/80">
                         {((parseInt(artist.playcount) / parseInt(userInfo.playcount)) * 100).toFixed(1)}%
                       </p>
                       <p className="text-sm text-white/40">of total</p>

@@ -79,4 +79,13 @@
   .glass-hover {
     @apply hover:bg-white/20 dark:hover:bg-black/20 transition-colors;
   }
+
+  /* Hide scrollbar for mobile */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
