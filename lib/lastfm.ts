@@ -76,7 +76,7 @@ export const PERIODS: Period[] = [
   { value: 'overall', label: 'All time' }
 ]
 
-async function fetchLastFM(params: Record<string, string>) {
+export async function fetchLastFM(params: Record<string, string>) {
   if (!API_KEY) {
     throw new Error('Last.fm API key not configured')
   }

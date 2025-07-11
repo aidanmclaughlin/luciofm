@@ -101,12 +101,24 @@ export default function UserProfile() {
       <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <Link href="/" className="inline-flex items-center text-white/60 hover:text-white mb-8 transition-all hover:translate-x-1">
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Home
-        </Link>
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/" className="inline-flex items-center text-white/60 hover:text-white transition-all hover:translate-x-1">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Home
+          </Link>
+          
+          <button
+            onClick={() => {/* TODO: Implement share */}}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-all"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.632 2.684C18.114 12.938 18 12.482 18 12c0-.482.114-.938.316-1.342m0 2.684a3 3 0 110-2.684m-4.948 9.368a9 9 0 111.06-13.944" />
+            </svg>
+            Share
+          </button>
+        </div>
 
         {/* User Header - Gorgeous new design */}
         <div className="relative mb-12">
