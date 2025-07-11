@@ -8,11 +8,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!username.trim()) return
     
-    setIsLoading(true)
     router.push(`/user/${username}`)
   }
 

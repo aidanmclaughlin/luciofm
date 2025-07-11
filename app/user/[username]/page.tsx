@@ -17,6 +17,7 @@ export default function UserProfile() {
   const [topAlbums, setTopAlbums] = useState<Album[]>([])
   const [selectedPeriod, setSelectedPeriod] = useState('1month')
   const [loading, setLoading] = useState(true)
+  const [periodLoading, setPeriodLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -47,9 +48,10 @@ export default function UserProfile() {
 
   const fetchPeriodData = async () => {
     try {
+      setPeriodLoading(true)
       const [tracks, artists, albums] = await Promise.all([
         getTopTracks(username, selectedPeriod, 10),
-        getTopArtists(username, selectedPeriod, 20),
+        getTopArtists(username, selectedPeriod, 12),
         getTopAlbums(username, selectedPeriod, 10)
       ])
       setTopTracks(tracks)
@@ -57,6 +59,8 @@ export default function UserProfile() {
       setTopAlbums(albums)
     } catch (err: any) {
       console.error('Failed to load period data:', err)
+    } finally {
+      setPeriodLoading(false)
     }
   }
 
@@ -94,7 +98,7 @@ export default function UserProfile() {
   return (
     <div className="min-h-screen bg-black">
       {/* Animated gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link href="/" className="inline-flex items-center text-white/60 hover:text-white mb-8 transition-all hover:translate-x-1">
@@ -189,7 +193,7 @@ export default function UserProfile() {
         </div>
 
         {/* Two Column Layout - Top Songs & Albums */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
           {/* Top Songs Column */}
           <div>
             <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
@@ -200,7 +204,7 @@ export default function UserProfile() {
                 <div
                   key={`${track.name}-${track.artist.name}-${index}`}
                   className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 p-4 transition-all hover:scale-[1.02] hover:border-pink-500/30 animate-in"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  style={{ animationDelay: `${index * 30}ms` }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 to-purple-500/0 group-hover:from-pink-500/10 group-hover:to-purple-500/10 transition-all" />
                   <div className="relative flex items-center gap-4">
@@ -231,7 +235,7 @@ export default function UserProfile() {
                 <div
                   key={`${album.name}-${album.artist.name}`}
                   className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-[1.02] hover:border-purple-500/30 animate-in"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  style={{ animationDelay: `${index * 30}ms` }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all" />
                   <div className="relative flex items-center gap-4 p-4">
@@ -282,7 +286,7 @@ export default function UserProfile() {
               <div
                 key={artist.name}
                 className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-white/0 hover:from-white/10 hover:to-white/5 border border-white/10 p-6 transition-all hover:scale-[1.02] hover:border-white/20 animate-in"
-                style={{ animationDelay: `${index * 30}ms` }}
+                style={{ animationDelay: `${Math.min(index * 20, 200)}ms` }}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-full blur-3xl group-hover:from-pink-500/30 group-hover:to-purple-500/30 transition-all" />
                 <div className="relative">
