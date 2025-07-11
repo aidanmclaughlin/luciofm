@@ -130,42 +130,7 @@ export async function getTopArtists(username: string, period = 'overall', limit 
     limit: limit.toString()
   })
   
-  // Fetch detailed info for each artist to get real images
-  const artistsWithRealImages = await Promise.all(
-    data.topartists.artist.slice(0, limit).map(async (artist: Artist) => {
-      try {
-        const params: Record<string, string> = {
-          method: 'artist.getinfo',
-          artist: artist.name,
-          autocorrect: '1'
-        }
-        if (artist.mbid) {
-          params.mbid = artist.mbid
-        }
-        const artistInfo = await fetchLastFM(params)
-        
-        // Use the detailed artist info images if they're not placeholders
-        const detailedImages = artistInfo.artist.image
-        const hasRealImage = detailedImages && detailedImages.some((img: ImageData) => 
-          img['#text'] && !img['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f')
-        )
-        
-        if (artist.name === 'Don L' || artist.name === 'Lana Del Rey') {
-          console.log(`${artist.name} detailed images:`, JSON.stringify(detailedImages, null, 2))
-        }
-        
-        return {
-          ...artist,
-          image: hasRealImage ? detailedImages : artist.image
-        }
-      } catch (error) {
-        console.error(`Failed to get detailed info for ${artist.name}:`, error)
-        return artist
-      }
-    })
-  )
-  
-  return artistsWithRealImages
+  return data.topartists.artist
 }
 
 export async function getTopAlbums(username: string, period = 'overall', limit = 12): Promise<Album[]> {

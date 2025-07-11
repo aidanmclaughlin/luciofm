@@ -157,7 +157,7 @@ export default function UserProfile() {
                 className="glass glass-hover rounded-xl p-4 flex items-center gap-4 animate-in"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                {track.image && track.image[2]?.['#text'] ? (
+                {track.image && track.image[2]?.['#text'] && !track.image[2]['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f') ? (
                   <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
                       src={track.image[2]['#text']}
