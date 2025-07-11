@@ -153,6 +153,17 @@ export async function getTopTracks(username: string, period = 'overall', limit =
 }
 
 export function getImageUrl(images: ImageData[], size: ImageData['size'] = 'large'): string {
-  const image = images.find(img => img.size === size) || images[images.length - 1]
-  return image?.['#text'] || ''
+  // Try to get the requested size first, then try larger sizes
+  const sizeOrder: ImageData['size'][] = ['mega', 'extralarge', 'large', 'medium', 'small']
+  const startIndex = sizeOrder.indexOf(size)
+  
+  for (let i = startIndex >= 0 ? startIndex : 0; i < sizeOrder.length; i++) {
+    const image = images.find(img => img.size === sizeOrder[i])
+    if (image?.['#text'] && !image['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f')) {
+      return image['#text']
+    }
+  }
+  
+  // If all images are the placeholder, return empty string
+  return ''
 }

@@ -225,8 +225,7 @@ export default function UserProfile() {
               >
                 <div className="relative w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-muted">
                   {(() => {
-                    const imageUrl = getImageUrl(artist.image, 'large')
-                    console.log(`Artist: ${artist.name}, Image URL:`, imageUrl)
+                    const imageUrl = getImageUrl(artist.image, 'extralarge')
                     return imageUrl && imageUrl.trim() !== '' ? (
                       <Image
                         src={imageUrl}
@@ -263,21 +262,27 @@ export default function UserProfile() {
                 className="glass glass-hover rounded-xl overflow-hidden animate-in"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <div className="relative aspect-square">
-                  {album.image[3]?.['#text'] ? (
-                    <Image
-                      src={album.image[3]['#text']}
-                      alt={album.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-muted flex items-center justify-center">
-                      <svg className="w-16 h-16 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
-                      </svg>
-                    </div>
-                  )}
+                <div className="relative aspect-square bg-muted">
+                  {(() => {
+                    const imageUrl = getImageUrl(album.image, 'extralarge')
+                    return imageUrl && imageUrl.trim() !== '' ? (
+                      <Image
+                        src={imageUrl}
+                        alt={album.name}
+                        fill
+                        className="object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <svg className="w-16 h-16 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+                        </svg>
+                      </div>
+                    )
+                  })()}
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold truncate mb-1">{album.name}</h3>
