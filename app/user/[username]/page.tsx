@@ -223,21 +223,27 @@ export default function UserProfile() {
                 className="glass glass-hover rounded-xl p-4 text-center animate-in"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <div className="relative w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden">
-                  {artist.image[2]?.['#text'] ? (
-                    <Image
-                      src={artist.image[2]['#text']}
-                      alt={artist.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-muted flex items-center justify-center">
-                      <svg className="w-12 h-12 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                      </svg>
-                    </div>
-                  )}
+                <div className="relative w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-muted">
+                  {(() => {
+                    const imageUrl = getImageUrl(artist.image, 'large')
+                    return imageUrl && imageUrl.trim() !== '' ? (
+                      <Image
+                        src={imageUrl}
+                        alt={artist.name}
+                        fill
+                        className="object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <svg className="w-12 h-12 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                      </div>
+                    )
+                  })()}
                 </div>
                 <h3 className="font-semibold truncate mb-1">{artist.name}</h3>
                 <p className="text-sm text-muted-foreground">{formatNumber(artist.playcount)} plays</p>

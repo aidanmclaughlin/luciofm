@@ -11,6 +11,26 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*.last.fm',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.scdn.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.discogs.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.wikimedia.org',
+      },
     ],
   },
 }

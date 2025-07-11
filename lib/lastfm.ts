@@ -154,5 +154,5 @@ export async function getTopTracks(username: string, period = 'overall', limit =
 
 export function getImageUrl(images: ImageData[], size: ImageData['size'] = 'large'): string {
   const image = images.find(img => img.size === size) || images[images.length - 1]
-  return image?.['#text'] || '/placeholder.png'
+  return image?.['#text'] || ''
 }
