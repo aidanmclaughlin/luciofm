@@ -79,37 +79,68 @@ export default function ComparePage() {
 
   return (
     <>
-      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-        Music Compatibility
-      </h1>
-
-        {!compatibility && (
-          <div className="glass rounded-2xl p-6 sm:p-8 max-w-md mx-auto">
-            <h2 className="text-xl font-semibold mb-4">Compare your music taste with:</h2>
-            <div className="space-y-4">
+      {!compatibility && (
+        <div className="max-w-2xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+            Music Compatibility
+          </h1>
+          <p className="text-lg text-white/60 mb-8">
+            Discover how your music taste matches with your friends
+          </p>
+          
+          <div className="glass rounded-2xl p-8 sm:p-10">
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-600/20 flex items-center justify-center mb-2">
+                  <span className="text-2xl">🎵</span>
+                </div>
+                <p className="font-semibold">{username1}</p>
+              </div>
+              <div className="text-2xl">🆚</div>
+              <div className="text-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-600/20 flex items-center justify-center mb-2">
+                  <span className="text-2xl">❓</span>
+                </div>
+                <p className="font-semibold text-white/40">Friend</p>
+              </div>
+            </div>
+            
+            <div className="space-y-4 max-w-sm mx-auto">
               <input
                 type="text"
                 value={username2}
                 onChange={(e) => setUsername2(e.target.value)}
-                placeholder="Enter username"
-                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="Enter friend's username"
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-center"
                 onKeyDown={(e) => e.key === 'Enter' && calculateCompatibility()}
               />
               <button
                 onClick={calculateCompatibility}
                 disabled={comparing || !username2.trim()}
-                className="w-full px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-purple-700 disabled:opacity-50 transition-all"
+                className="w-full px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-purple-700 disabled:opacity-50 transition-all transform hover:scale-105"
               >
-                {comparing ? 'Calculating...' : 'Compare'}
+                {comparing ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                    Calculating...
+                  </span>
+                ) : (
+                  'Compare Music Taste'
+                )}
               </button>
             </div>
             {error && (
               <p className="mt-4 text-red-400 text-sm">{error}</p>
             )}
           </div>
-        )}
+        </div>
+      )}
 
-        {compatibility && (
+      {compatibility && (
+        <>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 text-center">
+            Music Compatibility
+          </h1>
           <div className="space-y-8 animate-in">
             {/* Score Display */}
             <div className="glass rounded-3xl p-8 text-center">
@@ -205,7 +236,8 @@ export default function ComparePage() {
             >
               Compare with someone else
             </button>
-        </div>
+          </div>
+        </>
       )}
     </>
   )
