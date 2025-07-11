@@ -150,6 +150,10 @@ export async function getTopArtists(username: string, period = 'overall', limit 
           img['#text'] && !img['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f')
         )
         
+        if (artist.name === 'Don L' || artist.name === 'Lana Del Rey') {
+          console.log(`${artist.name} detailed images:`, JSON.stringify(detailedImages, null, 2))
+        }
+        
         return {
           ...artist,
           image: hasRealImage ? detailedImages : artist.image
