@@ -226,6 +226,7 @@ export default function UserProfile() {
                 <div className="relative w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-muted">
                   {(() => {
                     const imageUrl = getImageUrl(artist.image, 'large')
+                    console.log(`Artist: ${artist.name}, Image URL:`, imageUrl)
                     return imageUrl && imageUrl.trim() !== '' ? (
                       <Image
                         src={imageUrl}
