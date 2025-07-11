@@ -134,12 +134,15 @@ export async function getTopArtists(username: string, period = 'overall', limit 
   const artistsWithRealImages = await Promise.all(
     data.topartists.artist.slice(0, limit).map(async (artist: Artist) => {
       try {
-        const artistInfo = await fetchLastFM({
+        const params: Record<string, string> = {
           method: 'artist.getinfo',
           artist: artist.name,
-          mbid: artist.mbid || undefined,
           autocorrect: '1'
-        })
+        }
+        if (artist.mbid) {
+          params.mbid = artist.mbid
+        }
+        const artistInfo = await fetchLastFM(params)
         
         // Use the detailed artist info images if they're not placeholders
         const detailedImages = artistInfo.artist.image
