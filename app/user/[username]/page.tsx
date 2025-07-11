@@ -50,6 +50,7 @@ export default function UserProfile() {
         getTopArtists(username, selectedPeriod, 12),
         getTopAlbums(username, selectedPeriod, 12)
       ])
+      console.log('First artist full data:', JSON.stringify(artists[0], null, 2))
       setTopArtists(artists)
       setTopAlbums(albums)
     } catch (err: any) {
