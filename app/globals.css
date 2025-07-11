@@ -79,6 +79,11 @@
   .glass-hover {
     @apply hover:bg-white/20 dark:hover:bg-black/20 transition-colors;
   }
+  
+  /* Style select options for better appearance */
+  select option {
+    @apply bg-black text-white;
+  }
 
   /* Hide scrollbar for mobile */
   .scrollbar-hide {

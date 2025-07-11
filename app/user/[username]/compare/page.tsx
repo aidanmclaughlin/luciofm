@@ -96,7 +96,7 @@ export default function ComparePage() {
                 </div>
                 <p className="font-semibold">{username1}</p>
               </div>
-              <div className="text-2xl">🆚</div>
+              <div className="text-xl text-white/40">vs</div>
               <div className="text-center">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-600/20 flex items-center justify-center mb-2">
                   <span className="text-2xl">🎵</span>

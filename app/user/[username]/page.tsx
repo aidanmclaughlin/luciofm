@@ -195,21 +195,46 @@ export default function UserProfile() {
           </div>
         )}
 
-        {/* Period Selector - Beautiful pills */}
-        <div className="flex flex-wrap gap-1.5 mb-6 sm:mb-8 justify-center">
-          {PERIODS.map((period) => (
-            <button
-              key={period.value}
-              onClick={() => setSelectedPeriod(period.value)}
-              className={`px-4 py-2 rounded-full font-medium text-sm transition-all transform hover:scale-105 ${
-                selectedPeriod === period.value
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-purple-500/25'
-                  : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10'
-              }`}
-            >
-              {period.label}
-            </button>
-          ))}
+        {/* Period Selector - Dropdown on mobile, pills on desktop */}
+        <div className="mb-6 sm:mb-8">
+          {/* Mobile dropdown */}
+          <div className="sm:hidden flex justify-center">
+            <div className="relative">
+              <select
+                value={selectedPeriod}
+                onChange={(e) => setSelectedPeriod(e.target.value)}
+                className="appearance-none bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 pr-10 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer"
+              >
+                {PERIODS.map((period) => (
+                  <option key={period.value} value={period.value}>
+                    {period.label}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg className="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+          {/* Desktop pills */}
+          <div className="hidden sm:flex flex-wrap gap-1.5 justify-center">
+            {PERIODS.map((period) => (
+              <button
+                key={period.value}
+                onClick={() => setSelectedPeriod(period.value)}
+                className={`px-4 py-2 rounded-full font-medium text-sm transition-all transform hover:scale-105 ${
+                  selectedPeriod === period.value
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-purple-500/25'
+                    : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10'
+                }`}
+              >
+                {period.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Two Column Layout - Top Songs & Albums */}
