@@ -129,14 +129,14 @@ export default function UserProfile() {
         </div>
 
         {/* User Header - Gorgeous new design */}
-        <div className="relative mb-12">
+        <div className="relative mb-8">
           <div className="absolute inset-0 bg-gradient-to-r from-pink-600/20 to-purple-600/20 blur-3xl" />
-          <div className="relative bg-black/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-white/10">
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-8">
+          <div className="relative bg-black/40 backdrop-blur-xl rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border border-white/10">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-6">
               {userInfo.image[3]?.['#text'] && !userInfo.image[3]['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f') && (
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full blur-xl opacity-60" />
-                  <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-white/20">
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full overflow-hidden ring-4 ring-white/20">
                     <Image
                       src={userInfo.image[3]['#text']}
                       alt={userInfo.name}
@@ -146,29 +146,29 @@ export default function UserProfile() {
                   </div>
                 </div>
               )}
-              <div className="text-center md:text-left flex-1">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+              <div className="text-center md:text-left flex-1 w-full">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                   {userInfo.name}
                 </h1>
                 {userInfo.realname && (
-                  <p className="text-lg text-white/60 mb-4">{userInfo.realname}</p>
+                  <p className="text-base sm:text-lg text-white/60 mb-4">{userInfo.realname}</p>
                 )}
-                <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center md:justify-start">
-                  <div className="text-center md:text-left">
-                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
-                    <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider">Scrobbles</p>
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 md:flex md:gap-6 md:justify-start mt-4 w-full max-w-xs mx-auto md:max-w-none">
+                  <div className="text-center">
+                    <p className="text-lg sm:text-xl md:text-2xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
+                    <p className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Scrobbles</p>
                   </div>
-                  <div className="text-center md:text-left">
-                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                  <div className="text-center">
+                    <p className="text-lg sm:text-xl md:text-2xl font-bold text-white">
                       {Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24))}
                     </p>
-                    <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider">Days of Music</p>
+                    <p className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Days</p>
                   </div>
-                  <div className="text-center md:text-left">
-                    <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                  <div className="text-center">
+                    <p className="text-lg sm:text-xl md:text-2xl font-bold text-white">
                       {Math.floor(parseInt(userInfo.playcount) / Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24)))}
                     </p>
-                    <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider">Daily Average</p>
+                    <p className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Daily Avg</p>
                   </div>
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function UserProfile() {
         </div>
 
         {/* Two Column Layout - Top Songs & Albums */}
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-10 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-10 relative ${periodLoading ? 'opacity-50' : ''} transition-opacity`}>
           {/* Top Songs Column */}
           <div>
             <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
@@ -301,7 +301,7 @@ export default function UserProfile() {
           <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400">
             Your Top Artists
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {topArtists.map((artist, index) => (
               <div
                 key={artist.name}
