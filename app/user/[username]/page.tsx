@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { getUserInfo, getRecentTracks, getTopArtists, getTopAlbums, UserInfo, Track, Artist, Album, PERIODS, getImageUrl } from '@/lib/lastfm'
+import { getUserInfo, getRecentTracks, getTopArtists, getTopAlbums, getTopTracks, UserInfo, Track, Artist, Album, PERIODS, getImageUrl } from '@/lib/lastfm'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -12,6 +12,7 @@ export default function UserProfile() {
   
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [recentTracks, setRecentTracks] = useState<Track[]>([])
+  const [topTracks, setTopTracks] = useState<Track[]>([])
   const [topArtists, setTopArtists] = useState<Artist[]>([])
   const [topAlbums, setTopAlbums] = useState<Album[]>([])
   const [selectedPeriod, setSelectedPeriod] = useState('1month')
@@ -46,10 +47,12 @@ export default function UserProfile() {
 
   const fetchPeriodData = async () => {
     try {
-      const [artists, albums] = await Promise.all([
-        getTopArtists(username, selectedPeriod, 12),
-        getTopAlbums(username, selectedPeriod, 12)
+      const [tracks, artists, albums] = await Promise.all([
+        getTopTracks(username, selectedPeriod, 10),
+        getTopArtists(username, selectedPeriod, 20),
+        getTopAlbums(username, selectedPeriod, 10)
       ])
+      setTopTracks(tracks)
       setTopArtists(artists)
       setTopAlbums(albums)
     } catch (err: any) {
@@ -89,123 +92,95 @@ export default function UserProfile() {
   const isCurrentlyPlaying = recentTracks[0]?.['@attr']?.nowplaying === 'true'
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-purple-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors">
+    <div className="min-h-screen bg-black">
+      {/* Animated gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black animate-pulse" style={{ animationDuration: '8s' }} />
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Link href="/" className="inline-flex items-center text-white/60 hover:text-white mb-8 transition-all hover:translate-x-1">
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back
+          Back to Home
         </Link>
 
-        {/* User Header */}
-        <div className="glass rounded-3xl p-8 mb-8 animate-in">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            {userInfo.image[3]?.['#text'] && (
-              <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary/20">
-                <Image
-                  src={userInfo.image[3]['#text']}
-                  alt={userInfo.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-            <div className="text-center md:text-left flex-1">
-              <h1 className="text-4xl font-bold mb-2">{userInfo.name}</h1>
-              {userInfo.realname && (
-                <p className="text-xl text-muted-foreground mb-4">{userInfo.realname}</p>
-              )}
-              <div className="flex flex-wrap gap-6 justify-center md:justify-start">
-                <div>
-                  <p className="text-3xl font-bold text-primary">{formatNumber(userInfo.playcount)}</p>
-                  <p className="text-sm text-muted-foreground">Total Scrobbles</p>
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-primary">
-                    {new Date(parseInt(userInfo.registered.unixtime) * 1000).getFullYear()}
-                  </p>
-                  <p className="text-sm text-muted-foreground">Listening Since</p>
-                </div>
-                {userInfo.country && (
-                  <div>
-                    <p className="text-3xl font-bold text-primary">{userInfo.country}</p>
-                    <p className="text-sm text-muted-foreground">Country</p>
+        {/* User Header - Gorgeous new design */}
+        <div className="relative mb-12">
+          <div className="absolute inset-0 bg-gradient-to-r from-pink-600/20 to-purple-600/20 blur-3xl" />
+          <div className="relative bg-black/40 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+              {userInfo.image[3]?.['#text'] && !userInfo.image[3]['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f') && (
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full blur-xl opacity-60" />
+                  <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-white/20">
+                    <Image
+                      src={userInfo.image[3]['#text']}
+                      alt={userInfo.name}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
+                </div>
+              )}
+              <div className="text-center md:text-left flex-1">
+                <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                  {userInfo.name}
+                </h1>
+                {userInfo.realname && (
+                  <p className="text-xl text-white/60 mb-6">{userInfo.realname}</p>
                 )}
+                <div className="flex flex-wrap gap-8 justify-center md:justify-start">
+                  <div className="text-center md:text-left">
+                    <p className="text-4xl font-bold text-white">{formatNumber(userInfo.playcount)}</p>
+                    <p className="text-sm text-white/60 uppercase tracking-wider">Scrobbles</p>
+                  </div>
+                  <div className="text-center md:text-left">
+                    <p className="text-4xl font-bold text-white">
+                      {Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24))}
+                    </p>
+                    <p className="text-sm text-white/60 uppercase tracking-wider">Days of Music</p>
+                  </div>
+                  <div className="text-center md:text-left">
+                    <p className="text-4xl font-bold text-white">
+                      {Math.floor(parseInt(userInfo.playcount) / Math.floor((Date.now() - parseInt(userInfo.registered.unixtime) * 1000) / (1000 * 60 * 60 * 24)))}
+                    </p>
+                    <p className="text-sm text-white/60 uppercase tracking-wider">Daily Average</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Currently Playing / Recent Tracks */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            {isCurrentlyPlaying && (
-              <span className="flex gap-1">
-                <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse animation-delay-200"></span>
-                <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse animation-delay-400"></span>
-              </span>
-            )}
-            Recent Tracks
-          </h2>
-          <div className="grid gap-3">
-            {recentTracks.map((track, index) => (
-              <div
-                key={`${track.name}-${track.date?.uts || index}`}
-                className="glass glass-hover rounded-xl p-4 flex items-center gap-4 animate-in"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                {track.image && track.image[2]?.['#text'] && !track.image[2]['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f') ? (
-                  <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                    <Image
-                      src={track.image[2]['#text']}
-                      alt={`${track.album?.['#text'] || track.name}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
-                    <svg className="w-8 h-8 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                    </svg>
-                  </div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold truncate">{track.name}</p>
-                  <p className="text-sm text-muted-foreground truncate">
-                    {track.artist.name} {track.album?.['#text'] && `• ${track.album['#text']}`}
-                  </p>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  {track['@attr']?.nowplaying === 'true' ? (
-                    <p className="text-sm text-green-500 font-medium">Now Playing</p>
-                  ) : track.date ? (
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(parseInt(track.date.uts) * 1000).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </p>
-                  ) : null}
-                </div>
+        {/* Now Playing Banner */}
+        {isCurrentlyPlaying && recentTracks[0] && (
+          <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-900/20 to-emerald-900/20 p-6 border border-green-500/20">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-transparent animate-pulse" />
+            <div className="relative flex items-center gap-4">
+              <div className="flex gap-1">
+                <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
+                <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '200ms' }}></span>
+                <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '400ms' }}></span>
               </div>
-            ))}
+              <div>
+                <p className="text-green-400 text-sm uppercase tracking-wider mb-1">Now Playing</p>
+                <p className="text-white font-bold text-lg">{recentTracks[0].name}</p>
+                <p className="text-white/60">{recentTracks[0].artist.name}</p>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Period Selector */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        {/* Period Selector - Beautiful pills */}
+        <div className="flex flex-wrap gap-2 mb-12 justify-center">
           {PERIODS.map((period) => (
             <button
               key={period.value}
               onClick={() => setSelectedPeriod(period.value)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105 ${
                 selectedPeriod === period.value
-                  ? 'bg-primary text-primary-foreground'
-                  : 'glass glass-hover'
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-purple-500/25'
+                  : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10'
               }`}
             >
               {period.label}
@@ -213,102 +188,129 @@ export default function UserProfile() {
           ))}
         </div>
 
-        {/* Top Artists */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Top Artists</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {topArtists.map((artist, index) => (
-              <div
-                key={artist.name}
-                className="glass glass-hover rounded-xl p-4 text-center animate-in"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="relative w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-muted">
-                  {(() => {
-                    const imageUrl = getImageUrl(artist.image, 'extralarge')
-                    return imageUrl && imageUrl.trim() !== '' ? (
-                      <Image
-                        src={imageUrl}
-                        alt={artist.name}
-                        fill
-                        className="object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <svg className="w-12 h-12 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                        </svg>
-                      </div>
-                    )
-                  })()}
+        {/* Two Column Layout - Top Songs & Albums */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          {/* Top Songs Column */}
+          <div>
+            <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
+              Top Songs
+            </h2>
+            <div className="space-y-3">
+              {topTracks.map((track, index) => (
+                <div
+                  key={`${track.name}-${track.artist.name}-${index}`}
+                  className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 p-4 transition-all hover:scale-[1.02] hover:border-pink-500/30 animate-in"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 to-purple-500/0 group-hover:from-pink-500/10 group-hover:to-purple-500/10 transition-all" />
+                  <div className="relative flex items-center gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center font-bold text-lg text-pink-400">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-white truncate">{track.name}</p>
+                      <p className="text-sm text-white/60 truncate">{track.artist.name}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-purple-400">{formatNumber(track.playcount || '0')}</p>
+                      <p className="text-xs text-white/40">plays</p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-semibold truncate mb-1">{artist.name}</h3>
-                <p className="text-sm text-muted-foreground">{formatNumber(artist.playcount)} plays</p>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Top Albums Column */}
+          <div>
+            <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
+              Top Albums
+            </h2>
+            <div className="space-y-4">
+              {topAlbums.map((album, index) => (
+                <div
+                  key={`${album.name}-${album.artist.name}`}
+                  className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-[1.02] hover:border-purple-500/30 animate-in"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all" />
+                  <div className="relative flex items-center gap-4 p-4">
+                    <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-white/10 flex-shrink-0">
+                      {(() => {
+                        const imageUrl = getImageUrl(album.image, 'medium')
+                        return imageUrl && imageUrl.trim() !== '' ? (
+                          <Image
+                            src={imageUrl}
+                            alt={album.name}
+                            fill
+                            className="object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none'
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <svg className="w-8 h-8 text-white/20" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+                            </svg>
+                          </div>
+                        )
+                      })()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-white truncate">{album.name}</p>
+                      <p className="text-sm text-white/60 truncate">{album.artist.name}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-pink-400">{formatNumber(album.playcount)}</p>
+                      <p className="text-xs text-white/40">plays</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Top Albums */}
+        {/* Artists List at Bottom - Beautiful Design */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Top Albums</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {topAlbums.map((album, index) => (
+          <h2 className="text-3xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400">
+            Your Top Artists
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {topArtists.map((artist, index) => (
               <div
-                key={`${album.name}-${album.artist.name}`}
-                className="glass glass-hover rounded-xl overflow-hidden animate-in"
-                style={{ animationDelay: `${index * 50}ms` }}
+                key={artist.name}
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-white/0 hover:from-white/10 hover:to-white/5 border border-white/10 p-6 transition-all hover:scale-[1.02] hover:border-white/20 animate-in"
+                style={{ animationDelay: `${index * 30}ms` }}
               >
-                <div className="relative aspect-square bg-muted">
-                  {(() => {
-                    const imageUrl = getImageUrl(album.image, 'extralarge')
-                    return imageUrl && imageUrl.trim() !== '' ? (
-                      <Image
-                        src={imageUrl}
-                        alt={album.name}
-                        fill
-                        className="object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <svg className="w-16 h-16 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
-                        </svg>
-                      </div>
-                    )
-                  })()}
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold truncate mb-1">{album.name}</h3>
-                  <p className="text-sm text-muted-foreground truncate mb-2">{album.artist.name}</p>
-                  <p className="text-xs text-muted-foreground">{formatNumber(album.playcount)} plays</p>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-full blur-3xl group-hover:from-pink-500/30 group-hover:to-purple-500/30 transition-all" />
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-bold text-xl text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 transition-all">
+                      {artist.name}
+                    </h3>
+                    <span className="text-3xl font-bold text-white/20">#{index + 1}</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <p className="text-2xl font-bold text-white">{formatNumber(artist.playcount)}</p>
+                      <p className="text-sm text-white/40 uppercase tracking-wider">plays</p>
+                    </div>
+                    <div className="h-8 w-px bg-white/20" />
+                    <div>
+                      <p className="text-lg font-medium text-white/80">
+                        {((parseInt(artist.playcount) / parseInt(userInfo.playcount)) * 100).toFixed(1)}%
+                      </p>
+                      <p className="text-sm text-white/40">of total</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes animation-delay-200 {
-          animation-delay: 200ms;
-        }
-        @keyframes animation-delay-400 {
-          animation-delay: 400ms;
-        }
-        .animation-delay-200 {
-          animation-delay: 200ms;
-        }
-        .animation-delay-400 {
-          animation-delay: 400ms;
-        }
-      `}</style>
     </div>
   )
 }
