@@ -168,3 +168,16 @@ export function getImageUrl(images: ImageData[], size: ImageData['size'] = 'larg
   // If all images are the placeholder, return empty string
   return ''
 }
+
+export async function getTrackInfo(artist: string, track: string, username?: string) {
+  const params: Record<string, string> = {
+    method: 'track.getInfo',
+    artist,
+    track
+  }
+  if (username) {
+    params.username = username
+  }
+  const data = await fetchLastFM(params)
+  return data.track
+}

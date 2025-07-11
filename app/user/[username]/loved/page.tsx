@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { fetchLastFM } from '@/lib/lastfm'
+import { fetchLastFM, getTrackInfo } from '@/lib/lastfm'
 import Image from 'next/image'
 
 export default function LovedPage() {
@@ -28,7 +28,28 @@ export default function LovedPage() {
         limit: '50'
       })
       
-      setLovedTracks(data.lovedtracks.track || [])
+      const tracks = data.lovedtracks.track || []
+      
+      // Enrich tracks that don't have images with track.getInfo data
+      // Only enrich the first 10 tracks to avoid too many API calls
+      const enrichedTracks = await Promise.all(
+        tracks.map(async (track: any, index: number) => {
+          // If track doesn't have a valid image and it's in the first 10 tracks
+          if (index < 10 && (!track.image || !track.image[2]?.['#text'] || track.image[2]['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f'))) {
+            try {
+              const trackInfo = await getTrackInfo(track.artist.name, track.name, username)
+              if (trackInfo.album?.image) {
+                track.image = trackInfo.album.image
+              }
+            } catch (error) {
+              // If we can't get track info, just use the original track
+            }
+          }
+          return track
+        })
+      )
+      
+      setLovedTracks(enrichedTracks)
       setTotalPages(parseInt(data.lovedtracks['@attr'].totalPages))
     } catch (error) {
       console.error('Failed to fetch loved tracks:', error)
