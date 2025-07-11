@@ -1,41 +1,25 @@
-# LúcioFM
+# LúcioFM 🎵
 
-A better Last.fm for Lúcio :) - A gorgeous, modern interface built with Next.js and TypeScript.
-
-## Setup
-
-1. Get your Last.fm API key:
-   - Go to https://www.last.fm/api/account/create
-   - Sign in or create an account
-   - Fill out the application form
-   - Copy your API key
-
-2. Add your API key to `.env.local`:
-   ```
-   NEXT_PUBLIC_LASTFM_API_KEY=your_api_key_here
-   ```
-
-3. Install and run:
-   ```bash
-   npm install
-   npm run dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000)
+A beautiful music statistics viewer for Last.fm, made with love ❤️
 
 ## Features
 
-- 🌙 Beautiful dark mode interface
-- 🎵 Real-time "Now Playing" indicator
-- 📊 Time period filtering (7 days to all time)
-- 🎨 Album artwork and artist images
-- ✨ Smooth animations and glassmorphism effects
-- 📱 Fully responsive design
+✨ **Gorgeous dark interface** with glassmorphism effects  
+📊 **Deep statistics** including listening patterns and milestones  
+🗓️ **Activity calendar** with GitHub-style heatmap  
+💕 **Music compatibility** comparison between users  
+🎵 **Loved tracks** management  
+👥 **Friends activity** feed  
+📱 **Progressive Web App** - install on iOS/Android  
+🌐 **Live at** [luciofm.vercel.app](https://luciofm.vercel.app)
 
 ## Tech Stack
 
-- Next.js 14 with App Router
-- React 18
-- TypeScript
+- Next.js 14 & TypeScript
 - Tailwind CSS
 - Last.fm API
+- Vercel
+
+---
+
+*Made for Lúcio with love 💜*
