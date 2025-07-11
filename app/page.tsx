@@ -33,14 +33,14 @@ export default function Home() {
               <label htmlFor="username" className="block text-base sm:text-lg font-medium mb-4">
                 Enter your Last.fm username
               </label>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="space-y-3">
                 <input
                   id="username"
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="your-username"
-                  className="flex-1 px-4 py-3 rounded-xl bg-white/50 dark:bg-black/50 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base sm:text-sm"
+                  className="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-black/50 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base"
                   disabled={isLoading}
                   autoComplete="off"
                   autoCorrect="off"
@@ -50,7 +50,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isLoading || !username.trim()}
-                  className="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 text-base sm:text-sm"
+                  className="w-full px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 text-base"
                 >
                   {isLoading ? 'Loading...' : 'View Stats'}
                 </button>
