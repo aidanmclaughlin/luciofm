@@ -78,13 +78,10 @@ export default function ComparePage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-          Music Compatibility
-        </h1>
+    <>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+        Music Compatibility
+      </h1>
 
         {!compatibility && (
           <div className="glass rounded-2xl p-6 sm:p-8 max-w-md mx-auto">
@@ -208,9 +205,8 @@ export default function ComparePage() {
             >
               Compare with someone else
             </button>
-          </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   )
 }

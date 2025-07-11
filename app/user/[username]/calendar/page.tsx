@@ -104,20 +104,10 @@ export default function CalendarPage() {
     'July', 'August', 'September', 'October', 'November', 'December']
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <Link href="/" className="inline-flex items-center text-white/60 hover:text-white mb-6 transition-all">
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-          Home
-        </Link>
-
-        <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-          Listening Calendar
-        </h1>
+    <>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+        Listening Calendar
+      </h1>
 
         {/* Month Navigation */}
         <div className="flex items-center justify-between mb-8 glass rounded-xl p-4">
@@ -235,9 +225,8 @@ export default function CalendarPage() {
             <div className="w-4 h-4 bg-pink-600/60 rounded"></div>
             <div className="w-4 h-4 bg-pink-500/70 rounded"></div>
           </div>
-          <span className="text-white/60">More</span>
-        </div>
+        <span className="text-white/60">More</span>
       </div>
-    </div>
+    </>
   )
 }

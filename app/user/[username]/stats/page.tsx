@@ -91,7 +91,7 @@ export default function StatsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="flex items-center justify-center h-96">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
       </div>
     )
@@ -100,13 +100,10 @@ export default function StatsPage() {
   if (!stats) return null
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/10 to-black" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
-          Deep Dive Statistics
-        </h1>
+    <>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+        Deep Dive Statistics
+      </h1>
 
         {/* Key Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -237,9 +234,8 @@ export default function StatsPage() {
                 <p className="text-xs text-white/40 mt-1">{Math.round(stats.milestones.progress)}% complete</p>
               </div>
             )}
-          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
