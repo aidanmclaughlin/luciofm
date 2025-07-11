@@ -112,13 +112,25 @@ export async function getUserInfo(username: string): Promise<UserInfo> {
   return data.user
 }
 
-export async function getRecentTracks(username: string, limit = 10): Promise<Track[]> {
-  const data = await fetchLastFM({
+export async function getRecentTracks(username: string, limit = 10, from?: number, to?: number, page?: number): Promise<Track[]> {
+  const params: Record<string, string> = {
     method: 'user.getrecenttracks',
     user: username,
     limit: limit.toString(),
     extended: '1'
-  })
+  }
+  
+  if (from) {
+    params.from = from.toString()
+  }
+  if (to) {
+    params.to = to.toString()
+  }
+  if (page) {
+    params.page = page.toString()
+  }
+  
+  const data = await fetchLastFM(params)
   return data.recenttracks.track
 }
 

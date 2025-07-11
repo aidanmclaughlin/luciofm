@@ -27,13 +27,43 @@ export default function CalendarPage() {
   const fetchCalendarData = async () => {
     try {
       setLoading(true)
-      // In a real app, we'd fetch more data, but for now we'll use recent tracks
-      const tracks = await getRecentTracks(username, 200)
+      
+      // Calculate date range for the selected month
+      const year = selectedMonth.getFullYear()
+      const month = selectedMonth.getMonth()
+      const firstDay = new Date(year, month, 1)
+      const lastDay = new Date(year, month + 1, 0, 23, 59, 59)
+      
+      // Convert to unix timestamps
+      const fromTimestamp = Math.floor(firstDay.getTime() / 1000)
+      const toTimestamp = Math.floor(lastDay.getTime() / 1000)
+      
+      // Fetch all tracks for the month (multiple pages if needed)
+      let allTracks: any[] = []
+      let page = 1
+      let hasMore = true
+      
+      while (hasMore && page <= 10) { // Limit to 10 pages to avoid too many requests
+        const tracks = await getRecentTracks(username, 200, fromTimestamp, toTimestamp, page)
+        
+        if (!tracks || tracks.length === 0) {
+          hasMore = false
+        } else {
+          allTracks = [...allTracks, ...tracks]
+          page++
+          
+          // Check if we've reached the start of the month
+          const lastTrack = tracks[tracks.length - 1]
+          if (lastTrack.date && parseInt(lastTrack.date.uts) < fromTimestamp) {
+            hasMore = false
+          }
+        }
+      }
       
       // Group tracks by day
       const dayMap = new Map<string, DayData>()
       
-      tracks.forEach(track => {
+      allTracks.forEach(track => {
         if (track.date) {
           const date = new Date(parseInt(track.date.uts) * 1000)
           const dayKey = date.toDateString()
@@ -136,6 +166,11 @@ export default function CalendarPage() {
 
         {/* Calendar Grid */}
         <div className="glass rounded-xl p-4 sm:p-6 mb-8">
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+          ) : (
           <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
               <div key={day} className="text-center text-xs sm:text-sm font-medium text-white/60 pb-2">
@@ -169,6 +204,7 @@ export default function CalendarPage() {
               )
             })}
           </div>
+          )}
         </div>
 
         {/* Selected Day Details */}
