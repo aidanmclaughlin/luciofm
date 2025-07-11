@@ -100,8 +100,8 @@ export default function FriendsPage() {
   }
 
   const allFriends = [
-    ...friends.map(f => ({ name: f.name, realname: f.realname, image: f.image })),
-    ...customFriends.map(f => ({ name: f, custom: true }))
+    ...friends.map(f => ({ name: f.name, realname: f.realname, image: f.image, custom: false })),
+    ...customFriends.map(f => ({ name: f, realname: null, image: null, custom: true }))
   ]
 
   return (
