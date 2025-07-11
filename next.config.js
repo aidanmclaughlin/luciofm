@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: process.env.BUILD_FOR_CAPACITOR ? 'export' : undefined,
   images: {
+    unoptimized: process.env.BUILD_FOR_CAPACITOR === 'true',
     remotePatterns: [
       {
         protocol: 'https',

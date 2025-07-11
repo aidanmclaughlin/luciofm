@@ -7,9 +7,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:static": "BUILD_FOR_CAPACITOR=true next build",
+    "cap:add": "npx cap add ios",
+    "cap:sync": "npx cap sync",
+    "cap:open": "npx cap open ios",
+    "build:ios": "npm run build:static && npm run cap:sync"
   },
   "dependencies": {
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/ios": "^7.4.2",
     "next": "14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

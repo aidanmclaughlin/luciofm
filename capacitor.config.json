@@ -1,0 +1,18 @@
+{
+  "appId": "fm.lucio.app",
+  "appName": "LúcioFM",
+  "webDir": "out",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://luciofm.vercel.app",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "ios": {
+    "contentInset": "automatic"
+  }
+}
